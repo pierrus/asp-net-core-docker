@@ -21,9 +21,18 @@ docker build docker/ -t todo
 L'image est alors disponibles, vérifier avec `docker images`
 
 ## Lancer chaque conteneur manuellement
-docker run --name todo --network todo_nw -p 5000:80 -d todo
-docker run --name postgres --network todo_nw -v /Users/Pierre/Documents/Projets/asp-net-core-docker/data:/var/lib/postgresql/data/pgdata -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=none -e POSTGRES_DB=todo -e PGDATA=/var/lib/postgresql/data/pgdata -d postgres
-docker run --name ub_shell --network todo_nw --rm -it ubuntu
+
+Ajouter un nouveau réseau
+`docker network create todo_nw`
+
+PostgreSQL
+`docker run --name postgres --network todo_nw -v /Users/Pierre/Documents/Projets/asp-net-core-docker/data:/var/lib/postgresql/data/pgdata -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=none -e POSTGRES_DB=todo -e PGDATA=/var/lib/postgresql/data/pgdata -d postgres`
+
+Application web
+`docker run --name todo --network todo_nw -p 5000:80 -d todo`
+
+Ubuntu bash pour tester l'accessibilité des 2 autres conteneurs sur le network todo_nw
+`docker run --name ub_shell --network todo_nw --rm -it ubuntu`
 --> Inutile d'ouvrir le port 5432 sur Postgres, au sein du même réseau ils peuvent communiquer
 
 ## Utiliser docker-compose

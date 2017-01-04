@@ -1,0 +1,18 @@
+version: '2'
+services:
+  todo-web:
+    build: .
+    ports:
+        - "5000:80"
+    depends_on:
+        - todo-postgres
+  todo-postgres:
+    image: "postgres"
+    container_name: "postgres"
+    volumes:
+        - ../data:/var/lib/postgresql/data/pgdata
+    environment:
+        - POSTGRES_USER=myuser
+        - POSTGRES_PASSWORD=none
+        - POSTGRES_DB=todo
+        - PGDATA=/var/lib/postgresql/data/pgdata

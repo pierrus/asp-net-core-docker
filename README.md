@@ -7,23 +7,24 @@ Une mini application .NET Core + Angular + PostgreSQL, configurée pour être ex
 ## Images Docker utilisées
 
 Aspnetcore https://hub.docker.com/r/microsoft/aspnetcore/
+
 Postgres https://hub.docker.com/_/postgres/
 
 ## Pré-requis
 Installer docker depuis https://www.docker.com/
+
 Installer .NET Core depuis http://dot.net/
 
-## Compiler l'application et la publier
-./build.sh
-
 ## Créer une image pour le serveur web, avec les binaires de l'application web
-docker build docker/ -t todo
-L'image est alors disponibles, vérifier avec `docker images`
+Au préalable, compiler et publier l'application avec `./build.sh`
+
+Puis `docker build docker/ -t todo`
+
+L'image est alors disponible, vérifier avec `docker images`
 
 ## Lancer chaque conteneur manuellement
 
-Ajouter un nouveau réseau
-`docker network create todo_nw`
+Ajouter un nouveau réseau `docker network create todo_nw`, puis vérifier sa création avec `docker network ls`
 
 PostgreSQL
 `docker run --name postgres --network todo_nw -v /Users/Pierre/Documents/Projets/asp-net-core-docker/data:/var/lib/postgresql/data/pgdata -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=none -e POSTGRES_DB=todo -e PGDATA=/var/lib/postgresql/data/pgdata -d postgres`
@@ -33,15 +34,25 @@ Application web
 
 Ubuntu bash pour tester l'accessibilité des 2 autres conteneurs sur le network todo_nw
 `docker run --name ub_shell --network todo_nw --rm -it ubuntu`
---> Inutile d'ouvrir le port 5432 sur Postgres, au sein du même réseau ils peuvent communiquer
+
+Il est inutile d'ouvrir le port 5432 sur Postgres, au sein du même réseau les conteneurs peuvent communiquer entre eux sur tous les ports que les images déclartent avec **EXPOSE**.
+
+Pour arrêter les conteneurs
+`docker stop todo`
 
 ## Utiliser docker-compose
+
+Docker-compose permet de définir un environnement applicatif, avec plusieurs conteneurs. Il évite également de devoir manipuler individuellement chaque image (création, suppression), et chaque conteneur (démarrage, arrêt, suppression).
+
+Au préalable, compiler et publier l'application avec `./build.sh`
+
 Depuis le répertoire docker, `docker-compose up`
+
 Pour arrêter les conteneurs, et les supprimer, `docker-compose down`
 
 ## TODO
-- OK Tester avec un network de type bridge, dans lequel on fait tourner les 2 images l'option --network. Vérifier que l'app peut accéder à Postgres
-- OK Mettre les 2 images dans un compose: celle de l'app build depuis le dockerfile, l'autre est une image Postgres standard
+- **OK** Tester avec un network de type bridge, dans lequel on fait tourner les 2 images l'option --network. Vérifier que l'app peut accéder à Postgres
+- **OK** Mettre les 2 images dans un compose: celle de l'app build depuis le dockerfile, l'autre est une image Postgres standard
     - Toutefois, quand faire tourner la migration afin de créer les tables dans Postgres ?
     - Spécifier depends_on + une "command" dans l'image web, afin de déployer la migration à la première exécution
 - Mettre app + données Postgres dans des volumes

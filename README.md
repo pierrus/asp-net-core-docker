@@ -4,6 +4,12 @@
 
 Une mini application .NET Core + Angular + PostgreSQL, configurée pour être exécutée dans 2 conteneurs Docker.
 
+Les conteneurs peuvent être manipulés indépendamment avec **docker run**, mais aussi de manière plus pratique et user friendly avec docker **compose**.
+
+Cette démo vise à démontrer l'utilité de docker pour les développeurs, en facilitant la création de l'environnement d'exécution sur la machine du développeur.
+
+La mini app Angular + .NET Core est un fork de https://github.com/fiyazbinhasan/asp-net-core-web-api-with-angularjs.
+
 ## Images Docker utilisées
 
 Aspnetcore https://hub.docker.com/r/microsoft/aspnetcore/
@@ -27,7 +33,7 @@ L'image est alors disponible, vérifier avec `docker images`
 Ajouter un nouveau réseau `docker network create todo_nw`, puis vérifier sa création avec `docker network ls`
 
 PostgreSQL
-`docker run --name postgres --network todo_nw -v /Users/Pierre/Documents/Projets/asp-net-core-docker/data:/var/lib/postgresql/data/pgdata -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=none -e POSTGRES_DB=todo -e PGDATA=/var/lib/postgresql/data/pgdata -d postgres`
+`docker run --name postgres --network todo_nw -v data:/var/lib/postgresql/data/pgdata -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=none -e POSTGRES_DB=todo -e PGDATA=/var/lib/postgresql/data/pgdata -d postgres`
 
 Application web
 `docker run --name todo --network todo_nw -p 5000:80 -d todo`
@@ -35,7 +41,7 @@ Application web
 Ubuntu bash pour tester l'accessibilité des 2 autres conteneurs sur le network todo_nw
 `docker run --name ub_shell --network todo_nw --rm -it ubuntu`
 
-Il est inutile d'ouvrir le port 5432 sur Postgres, au sein du même réseau les conteneurs peuvent communiquer entre eux sur tous les ports que les images déclartent avec **EXPOSE**.
+Il est inutile d'ouvrir le port 5432 sur Postgres, au sein du même réseau les conteneurs peuvent communiquer entre eux sur tous les ports que les images déclarent avec **EXPOSE**.
 
 Pour arrêter les conteneurs
 `docker stop todo`
@@ -56,3 +62,4 @@ Pour arrêter les conteneurs, et les supprimer, `docker-compose down`
     - Toutefois, quand faire tourner la migration afin de créer les tables dans Postgres ?
     - Spécifier depends_on + une "command" dans l'image web, afin de déployer la migration à la première exécution
 - Mettre app + données Postgres dans des volumes
+- Déplacer la connectionString dans appsettings.

@@ -19,7 +19,9 @@
       "type": "build"
     },
     "Npgsql.EntityFrameworkCore.PostgreSQL": "1.1.0-preview1-final",
-    "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "1.1.0-preview1-final"
+    "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "1.1.0-preview1-final",
+    "Microsoft.Extensions.Configuration": "1.1.0",
+    "Microsoft.Extensions.Configuration.Json": "1.1.0"
   },
 
   "frameworks": {

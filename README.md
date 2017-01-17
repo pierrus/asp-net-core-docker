@@ -62,4 +62,4 @@ Pour arrêter les conteneurs, et les supprimer, `docker-compose down`
     - Toutefois, quand faire tourner la migration afin de créer les tables dans Postgres ?
     - Spécifier depends_on + une "command" dans l'image web, afin de déployer la migration à la première exécution
 - Mettre app + données Postgres dans des volumes
-- Déplacer la connectionString dans appsettings.
+- **OK** Déplacer la connectionString dans appsettings.

@@ -17,7 +17,6 @@ namespace Todo.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //var connectionString = @"Server=postgres; Port=5432; User Id=myuser; Password=none; Database=todo";
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("PostgresConnection"));
         }
     }

@@ -27,9 +27,14 @@ namespace Todo
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddSingleton<Data.ITodoRepository, Data.PostGresTodoRepository>();
 
-            services.AddScoped<Data.PostGresTodoContext, Data.PostGresTodoContext>();
+            // REPOSITORY POSTGRESQL
+            //services.AddSingleton<Data.ITodoRepository, Data.PostGresTodoRepository>();
+            //services.AddScoped<Data.PostGresTodoContext, Data.PostGresTodoContext>();
+
+            // REPOSITORY POSTGRESQL
+            services.AddSingleton<Data.ITodoRepository, Data.TodoRepository>();
+            services.AddScoped<Data.TodoContext, Data.TodoContext>();
 
             services.AddTransient<IConfigurationRoot>(s => { return Configuration; });
 

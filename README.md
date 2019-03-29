@@ -10,7 +10,7 @@ Cette démo vise à démontrer l'utilité de docker pour les développeurs, en f
 
 La mini app Angular + .NET Core est un fork de https://github.com/fiyazbinhasan/asp-net-core-web-api-with-angularjs.
 
-## Images Docker utilisées
+## Images Docker utilisées (FROM)
 
 Aspnetcore https://hub.docker.com/r/microsoft/aspnetcore/
 
@@ -27,6 +27,13 @@ Au préalable, compiler et publier l'application avec `./build.sh`
 Puis `docker build docker/ -t todo`
 
 L'image est alors disponible, vérifier avec `docker images`
+
+## Publier sur le registry azure privé
+docker tag todo todo:V1
+docker tag todo:V1 dockercontainerdemo.azurecr.io/todo
+docker push dockercontainerdemo.azurecr.io/todo
+
+http://webappdockerdemo.azurewebsites.net
 
 ## Lancer chaque conteneur manuellement
 

@@ -31,9 +31,9 @@ L'image est alors disponible, vérifier avec `docker images`
 ## Publier sur le registry azure privé
 docker tag todo todo:V1
 
-docker tag todo:V1 dockercontainerdemo.azurecr.io/todo
+docker tag todo:V1 dockercontainerdemo.azurecr.io/todo:V1
 
-docker push dockercontainerdemo.azurecr.io/todo
+docker push dockercontainerdemo.azurecr.io/todo:V1
 
 OU utiliser le script **docker-build.sh**
 

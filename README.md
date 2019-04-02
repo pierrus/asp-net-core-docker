@@ -30,10 +30,21 @@ L'image est alors disponible, vérifier avec `docker images`
 
 ## Publier sur le registry azure privé
 docker tag todo todo:V1
+
 docker tag todo:V1 dockercontainerdemo.azurecr.io/todo
+
 docker push dockercontainerdemo.azurecr.io/todo
 
+OU utiliser le script **docker-build.sh**
+
 http://webappdockerdemo.azurewebsites.net
+
+## Activer le déploiement continu dans la webapp
+webapp/paramètres du conteneur: déploiement continu --> activé
+
+copier/coller l'URL de webhook
+
+vérifier dans registry/webhooks que l'URL correspond
 
 ## Lancer chaque conteneur manuellement
 

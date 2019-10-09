@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace Todo
 {
@@ -53,7 +57,11 @@ namespace Todo
             app.UseStaticFiles();
 
             //Expose health checks endpoints
-            app.UseHealthChecks("/health");
+            app.UseHealthChecks("/health", new HealthCheckOptions()
+                {
+                //that's to the method you created 
+                ResponseWriter = Health.ApiHealthCheck.WriteHealthCheckResponse 
+                });
 
             //Middleware MVC pour l'exécution de contrôleurs API/MVC
             app.UseMvc();

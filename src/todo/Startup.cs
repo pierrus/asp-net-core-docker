@@ -29,14 +29,17 @@ namespace Todo
             // Add framework services.
 
             // REPOSITORY POSTGRESQL
-            //services.AddSingleton<Data.ITodoRepository, Data.PostGresTodoRepository>();
-            //services.AddScoped<Data.PostGresTodoContext, Data.PostGresTodoContext>();
+            services.AddSingleton<Data.ITodoRepository, Data.PostGresTodoRepository>();
+            services.AddScoped<Data.PostGresTodoContext, Data.PostGresTodoContext>();
 
-            // REPOSITORY POSTGRESQL
-            services.AddSingleton<Data.ITodoRepository, Data.TodoRepository>();
-            services.AddScoped<Data.TodoContext, Data.TodoContext>();
+            // REPOSITORY SQL LITE
+            //services.AddSingleton<Data.ITodoRepository, Data.TodoRepository>();
+            //services.AddScoped<Data.TodoContext, Data.TodoContext>();
 
             services.AddTransient<IConfigurationRoot>(s => { return Configuration; });
+
+            services.AddHealthChecks()                
+                .AddCheck<Todo.Health.ApiHealthCheck>("repository");
 
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());        
         }
@@ -48,6 +51,9 @@ namespace Todo
 
             //Middleware static files pour le rendu de fichiers statiques: CSS, JS, HTML ....
             app.UseStaticFiles();
+
+            //Expose health checks endpoints
+            app.UseHealthChecks("/health");
 
             //Middleware MVC pour l'exécution de contrôleurs API/MVC
             app.UseMvc();

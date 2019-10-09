@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Todo.Data
 {
-    public class SimpleRepository : ITodoRepository
+    public class MemoryRepository : ITodoRepository
     {
         private IList<Models.TodoItem> _todoItems = new List<Models.TodoItem>();
 

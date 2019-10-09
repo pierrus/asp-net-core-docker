@@ -46,7 +46,12 @@ copier/coller l'URL de webhook
 
 vérifier dans registry/webhooks que l'URL correspond
 
-## Lancer chaque conteneur manuellement
+## PostGreSQL
+
+Lancer individuellement en écoutant sur le port 5432
+`docker run --name postgres -e POSTGRES_USER=myuser -p 5432:5432 -e POSTGRES_PASSWORD=none -e POSTGRES_DB=todo -d postgres`
+
+## Lancer chaque conteneur manuellement au sein d'un réseau virtuel Docker
 
 Ajouter un nouveau réseau `docker network create todo_nw`, puis vérifier sa création avec `docker network ls`
 
@@ -59,7 +64,7 @@ Application web
 Ubuntu bash pour tester l'accessibilité des 2 autres conteneurs sur le network todo_nw
 `docker run --name ub_shell --network todo_nw --rm -it ubuntu`
 
-Il est inutile d'ouvrir le port 5432 sur Postgres, au sein du même réseau les conteneurs peuvent communiquer entre eux sur tous les ports que les images déclarent avec **EXPOSE**.
+Dans ce mode il est inutile d'ouvrir le port 5432 sur Postgres, au sein du même réseau les conteneurs peuvent communiquer entre eux sur tous les ports que les images déclarent avec **EXPOSE**.
 
 Pour arrêter les conteneurs
 `docker stop todo`

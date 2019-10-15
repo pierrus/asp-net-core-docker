@@ -4,6 +4,6 @@ docker rmi todo
 
 docker build docker/ -t todo
 
-docker tag todo todo:sqllite
+docker tag todo todo:sqllite-2.2
 #docker tag todo:sqllite frcontainerregistry.azurecr.io/todo:sqllite
 #docker push frcontainerregistry.azurecr.io/todo:sqllite

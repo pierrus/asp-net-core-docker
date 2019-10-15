@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace Todo.Health
 {
-    public class ApiHealthCheck : IHealthCheck
+    public class RepositoryHealthCheck : IHealthCheck
     {
         private readonly Data.ITodoRepository _todoRepository;
 
-        public ApiHealthCheck(Data.ITodoRepository todoRepository)
+        public RepositoryHealthCheck(Data.ITodoRepository todoRepository)
         {
             _todoRepository = todoRepository;
         }

@@ -60,6 +60,7 @@ PostgreSQL
 
 Application web
 `docker run --name todo --network todo_nw -p 5000:80 -d todo`
+ou `docker run --name todo --network todo_nw -p 5000:80 -d -e ConnectionStrings__PostgresConnection='Server=postgres; Port=5432; User Id=myuser; Password=none; Database=todo' todo`
 
 Ubuntu bash pour tester l'accessibilité des 2 autres conteneurs sur le network todo_nw
 `docker run --name ub_shell --network todo_nw --rm -it ubuntu`

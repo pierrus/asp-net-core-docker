@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Logging;
 
 namespace Todo
 {
@@ -31,6 +32,7 @@ namespace Todo
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            
 
             // REPOSITORY POSTGRESQL
             services.AddSingleton<Data.ITodoRepository, Data.PostGresTodoRepository>();
@@ -43,9 +45,15 @@ namespace Todo
             services.AddTransient<IConfigurationRoot>(s => { return Configuration; });
 
             services.AddHealthChecks()                
-                .AddCheck<Todo.Health.ApiHealthCheck>("repository");
+                .AddCheck<Todo.Health.RepositoryHealthCheck>("repository");
 
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());        
+
+            services.AddLogging(loggingBuilder => 
+                {
+                    loggingBuilder.AddConsole();
+                });
+        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +68,7 @@ namespace Todo
             app.UseHealthChecks("/health", new HealthCheckOptions()
                 {
                 //that's to the method you created 
-                ResponseWriter = Health.ApiHealthCheck.WriteHealthCheckResponse 
+                ResponseWriter = Health.RepositoryHealthCheck.WriteHealthCheckResponse 
                 });
 
             //Middleware MVC pour l'exécution de contrôleurs API/MVC

@@ -17,7 +17,7 @@ namespace Todo.Data
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            return new PostGresTodoContext(configuration);
+            return new PostGresTodoContext(configuration, null);
         
         }
     }

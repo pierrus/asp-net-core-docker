@@ -1,4 +1,4 @@
-FROM microsoft/aspnetcore:1.1.1
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-bionic
 WORKDIR /app
 COPY build .
 EXPOSE 80

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Todo.Controllers
 {
@@ -10,10 +11,12 @@ namespace Todo.Controllers
     public class TodoController : Controller
     {
         private readonly Data.ITodoRepository _todoRepository;
+        ILogger _logger;
 
-        public TodoController(Data.ITodoRepository todoRepository)
+        public TodoController(Data.ITodoRepository todoRepository, ILogger<TodoController> logger)
         {
             _todoRepository = todoRepository;
+            _logger = logger;
         }
 
         //
@@ -22,6 +25,8 @@ namespace Todo.Controllers
         [AllowAnonymous]
         public IList<Models.TodoItem> Get()
         {
+            _logger.Log(LogLevel.Information, "HttpGet request on api/todo", null);
+
             return _todoRepository.Get();
         }
 

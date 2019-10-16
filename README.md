@@ -24,7 +24,12 @@ Installer .NET Core depuis http://dot.net/
 ## Créer une image pour le serveur web, avec les binaires de l'application web
 Au préalable, compiler et publier l'application avec `./build.sh`
 
-Puis `docker build docker/ -t todo`
+Puis `docker build docker/todo.web -t todo`
+
+L'image est alors disponible, vérifier avec `docker images`
+
+## Créer une image pour le worker
+Puis `docker build docker/todo.health -t todo.health`
 
 L'image est alors disponible, vérifier avec `docker images`
 
@@ -32,6 +37,8 @@ L'image est alors disponible, vérifier avec `docker images`
 docker tag todo todo:V1
 
 docker tag todo:V1 dockercontainerdemo.azurecr.io/todo:V1
+
+docker login .....
 
 docker push dockercontainerdemo.azurecr.io/todo:V1
 
@@ -61,6 +68,8 @@ PostgreSQL
 Application web
 `docker run --name todo --network todo_nw -p 5000:80 -d todo`
 ou `docker run --name todo --network todo_nw -p 5000:80 -d -e ConnectionStrings__PostgresConnection='Server=postgres; Port=5432; User Id=myuser; Password=none; Database=todo' todo`
+
+Worker `docker run --name todo.health --network todo_nw -d -e Health__Url='http://todo/health' todo.health`
 
 Ubuntu bash pour tester l'accessibilité des 2 autres conteneurs sur le network todo_nw
 `docker run --name ub_shell --network todo_nw --rm -it ubuntu`

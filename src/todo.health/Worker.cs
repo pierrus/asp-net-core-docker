@@ -33,24 +33,16 @@ namespace todo.health
             {
                 try	
                 {
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    // Above three lines can be replaced with new helper method below
-                    // string responseBody = await client.GetStringAsync(uri);
+                    string responseBody = await client.GetStringAsync(url);
 
                     _logger.LogInformation("Application healthy", DateTimeOffset.Now);
                 }  
                 catch(HttpRequestException e)
                 {
-                    _logger.LogError("API Error", DateTimeOffset.Now);
-
+                    _logger.LogError(e, "API Error", DateTimeOffset.Now);
                 }
 
-
-
-
-                await Task.Delay(1000, stoppingToken);
+                await Task.Delay(5000, stoppingToken);
             }
         }
     }

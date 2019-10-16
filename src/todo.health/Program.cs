@@ -24,6 +24,13 @@ namespace todo.health
                     IConfiguration configuration = hostContext.Configuration;
                     services.AddSingleton(configuration);
                     services.AddHostedService<Worker>();
+                })
+                .ConfigureAppConfiguration((hostContext, config) =>
+                {
+                    config.SetBasePath(Environment.CurrentDirectory);
+                    config.AddJsonFile("appsettings.json", optional: false);
+                    config.AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true);
+                    config.AddEnvironmentVariables();
                 });
     }
 }
